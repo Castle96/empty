@@ -2,6 +2,7 @@
 name = "empty"
 version = "0.1.0"
 edition = "2021"
+	build = "build.rs"
 
 [profile.dev]
 panic = "abort"
@@ -9,8 +10,9 @@ panic = "abort"
 [profile.release]
 panic = "abort"
 
+
 [dependencies]
-bootloader = "0.11.6"
+bootloader = "0.9.23"
 
 [package.metadata.bootloader]
 binary = "target/x86_64-unknown-none/debug/empty"

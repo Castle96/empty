@@ -3,6 +3,47 @@
 #![allow(dead_code)]
 #![allow(static_mut_refs)]
 
+// Provide C ABI memory functions for linker
+#[no_mangle]
+pub extern "C" fn memset(s: *mut u8, c: i32, n: usize) -> *mut u8 {
+    let mut i = 0;
+    unsafe {
+        while i < n {
+            *s.add(i) = c as u8;
+            i += 1;
+        }
+    }
+    s
+}
+
+#[no_mangle]
+pub extern "C" fn memcpy(dest: *mut u8, src: *const u8, n: usize) -> *mut u8 {
+    let mut i = 0;
+    unsafe {
+        while i < n {
+            *dest.add(i) = *src.add(i);
+            i += 1;
+        }
+    }
+    dest
+}
+
+#[no_mangle]
+pub extern "C" fn memmove(dest: *mut u8, src: *const u8, n: usize) -> *mut u8 {
+    if dest as usize <= src as usize || dest as usize >= (src as usize + n) {
+        memcpy(dest, src, n)
+    } else {
+        let mut i = n;
+        unsafe {
+            while i != 0 {
+                i -= 1;
+                *dest.add(i) = *src.add(i);
+            }
+        }
+        dest
+    }
+}
+
 use core::arch::asm;
 use core::panic::PanicInfo;
 

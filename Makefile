@@ -37,8 +37,9 @@ $(iso): $(kernel) $(grub_cfg)
 iso-list:
 	@isoinfo -i $(iso) -R -f || echo "isoinfo not installed"
 
+
 $(kernel): cargo $(assembly_object_files) $(linker_script)
-	@ld -n -T $(linker_script) -o $(kernel) build/arch/x86_64/multiboot_header.o $(filter-out build/arch/x86_64/multiboot_header.o,$(assembly_object_files)) target/x86_64-unknown-none/release/libempty.a
+	@ld -n -T $(linker_script) -o $(kernel) build/arch/x86_64/multiboot_header.o $(filter-out build/arch/x86_64/multiboot_header.o,$(assembly_object_files)) target/x86_64-unknown-none/release/libempty.rlib
 
 cargo:
 	@cargo +nightly build -Z build-std=core,compiler_builtins --target x86_64-unknown-none.json --release
