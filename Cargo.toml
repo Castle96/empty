@@ -10,7 +10,7 @@ panic = "abort"
 panic = "abort"
 
 [dependencies]
-bootloader = "0.11.6"
+
 
 [package.metadata.bootloader]
 binary = "target/x86_64-unknown-none/debug/empty"
